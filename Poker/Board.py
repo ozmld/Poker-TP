@@ -10,7 +10,11 @@ class Board:
     def __init__(self, begin_chips=100):
         self.players = {}
         self.begin_chips = begin_chips
+        self.board = []
 
+    def open_board_cards(self, cards):
+        for card in cards:
+            self.board.append(card)
     # Builder pattern
     def add_player(self, p) -> None:
         check_type(p)
@@ -31,8 +35,24 @@ class Board:
         except KeyError:
             print("Player you want to add bid to is not in the players")
 
+    def get_players_number(self):
+        return len(self.players)
+
+    def deal_cards(self, cards):
+        counter = 0
+        for player in self.players.keys():
+            player.give_cards(cards[counter])
+            counter += 1
+
+    def hand_strength(self, player):
+        if not player in self.players.keys():
+            raise KeyError("Argument given is not a player")
+        hand = player.get_hand()
+        pool = hand + self.board
+        combinations_name = {}
+        combinations_strength = {}
     def determine_winner(self) -> Player:
         # TODO: Check hands of all players and determine "win" hand
         # TODO: Return extra chips to "losers" ("winner" can not take "too much" chips)
-        winner = self.players.get(1)
+        winner = self.players.get(0)
         return winner

@@ -7,8 +7,9 @@ class Player:
     def change_chips(self, chips):
         self.chips += chips
 
-    def give_card(self, card):
-        self.hand.append(card)
+    def give_cards(self, cards):
+        for card in cards:
+            self.hand.append(card)
 
     def make_bid(self, chips_to_bid=0):
         if chips_to_bid > self.chips:
@@ -16,6 +17,8 @@ class Player:
         self.chips -= chips_to_bid
         # TODO: proceed def bid in class Game
 
+    def get_hand(self):
+        return self.hand
 
 class Bot(Player):
     def change_strategy(self):
@@ -25,7 +28,9 @@ class Bot(Player):
 
 class Rational(Bot):
     ...
+    # TODO: describe strategy algorithm
 
 
 class Agressive(Bot):
     ...
+    # TODO: describe strategy algorithm
