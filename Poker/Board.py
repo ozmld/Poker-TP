@@ -1,4 +1,5 @@
 from Player import Player
+from Deck import Combination
 
 
 def check_type(p):
@@ -27,11 +28,12 @@ class Board:
         except KeyError:
             print("Player you want to remove is not in the players")
 
-    def bid(self, p, bid=0) -> None:
+    def bid(self, p: Player, bid=0) -> None:
         # Player {p} bids {bid} chips
         check_type(p)
         try:
             self.players[p] += bid
+            p.make_bid(bid)
         except KeyError:
             print("Player you want to add bid to is not in the players")
 
@@ -45,12 +47,12 @@ class Board:
             counter += 1
 
     def hand_strength(self, player):
-        if not player in self.players.keys():
+        if player not in self.players.keys():
             raise KeyError("Argument given is not a player")
         hand = player.get_hand()
-        pool = hand + self.board
-        combinations_name = {}
-        combinations_strength = {}
+        combination = Combination(set(hand + self.board))
+        return combination.determine_strength()
+
     def determine_winner(self) -> Player:
         # TODO: Check hands of all players and determine "win" hand
         # TODO: Return extra chips to "losers" ("winner" can not take "too much" chips)
